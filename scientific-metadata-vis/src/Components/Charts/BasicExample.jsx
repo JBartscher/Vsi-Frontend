@@ -1,6 +1,6 @@
 import * as d3 from "d3"
 import {useEffect, useState} from "react";
-import {isInNodes} from "../../util";
+import {isLinkInNodes} from "../../util";
 
 const BasicForceDirectedGraph = () => {
 
@@ -127,7 +127,7 @@ const BasicForceDirectedGraph = () => {
             })
 
             graph.links = graph.links.filter(l => {
-                return l.year === year && isInNodes(graph.nodes, l) && l.value > 1
+                return l.year === year && isLinkInNodes(graph.nodes, l) && l.value > 1
             })
 
             simulation = d3.forceSimulation(graph.nodes)

@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import {useEffect, useRef, useState} from "react";
-import {getMaxValueInNodes} from "../../util";
+import {useEffect, useRef} from "react";
+import {getMaxValueInNodes, findAllIndexesById} from "../../util";
 
 
 const BubbleChart = ({year}) => {
@@ -24,6 +24,11 @@ const BubbleChart = ({year}) => {
                 "year": "2022"
             },
             {
+                id: "data mining",
+                "value": 72,
+                "year": "2021"
+            },
+            {
                 id: "disaster information management",
                 "value": 2,
                 "year": "2023"
@@ -37,6 +42,11 @@ const BubbleChart = ({year}) => {
                 id: "application",
                 "value": 3,
                 "year": "2021"
+            },
+            {
+                id: "application",
+                "value": 12,
+                "year": "2023"
             }
         ],
         links: [
@@ -75,18 +85,33 @@ const BubbleChart = ({year}) => {
 
     function handleMouseOver(event, node) {
         console.log("mouseover")
-        d3.select(this).style("fill", function (d) {
-            return colorScale(node.value * -1 * 2)
-        })
+        // d3.select(this).style("fill", function (d) {
+        //     return colorScale(node.value * -1 * 2)
+        // })
 
-        links.current = [
-            {
-                source: graph.nodes[node.index],
-                target: graph.nodes[3]
-            }, {
-                source: graph.nodes[node.index],
-                target: graph.nodes[3]
-            }]
+        const nodesWithSameId = findAllIndexesById(graph.nodes, node.id).filter(e => {
+            return e !== node.index
+        })
+        console.log(nodesWithSameId)
+
+        if (nodesWithSameId.length > 1) {
+            links.current = [
+                {
+                    source: graph.nodes[node.index],
+                    target: graph.nodes[nodesWithSameId[0]]
+                }, {
+                    source: graph.nodes[node.index],
+                    target: graph.nodes[nodesWithSameId[1]]
+                }
+            ]
+        } else if (nodesWithSameId.length == 1) {
+            links.current = [
+                {
+                    source: graph.nodes[node.index],
+                    target: graph.nodes[nodesWithSameId[0]]
+                }
+            ]
+        }
 
         linkElements = svg.selectAll("line")
             .data(links.current)
@@ -95,10 +120,10 @@ const BubbleChart = ({year}) => {
             .attr("stroke-width", d => 2)
             .attr("class", "relation-line")
             .style("stroke", "black")
-            .attr("x1",l => l.source.x)
-            .attr("y1",l => l.source.y)
-            .attr("x2",l => l.target.x)
-            .attr("y2",l => l.target.y)
+            .attr("x1", l => l.source.x)
+            .attr("y1", l => l.source.y)
+            .attr("x2", l => l.target.x)
+            .attr("y2", l => l.target.y)
 
 
         svg.append("text")
@@ -110,9 +135,9 @@ const BubbleChart = ({year}) => {
     }
 
     function handleMouseOut(d, i) {
-        d3.select(this).style("fill", function (d) {
-            return colorScale(d.value)
-        })
+        // d3.select(this).style("fill", function (d) {
+        //     return colorScale(d.value)
+        // })
         d3.select('#tooltip').remove()
         d3.selectAll('.relation-line').remove()
         links.current = []
@@ -167,13 +192,13 @@ const BubbleChart = ({year}) => {
 
         // load the data
         d3.json("data.json").then(_graph => {
-            graph = test_data;
+            graph = _graph;
 
             const previousYear = (parseInt(year) - 1).toString()
             const nextYear = (parseInt(year) + 1).toString()
 
             graph.nodes = graph.nodes.filter(n => {
-                return ((n.year === year) || (n.year === previousYear) || (n.year === nextYear)) && n.value > 1
+                return ((n.year === year) || (n.year === previousYear) || (n.year === nextYear)) && n.value > 10
             })
 
             const max = getMaxValueInNodes(graph.nodes)
