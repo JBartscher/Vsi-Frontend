@@ -11,7 +11,7 @@ const BasicForceDirectedGraph = () => {
 
     let simulation;
 
-    var test_data = {
+    const test_data = {
         nodes: [
             {
                 id: "data mining",
@@ -21,12 +21,17 @@ const BasicForceDirectedGraph = () => {
             {
                 id: "disaster information management",
                 "value": 2,
-                "year": "2022"
+                "year": "2023"
             },
             {
                 id: "application",
                 "value": 3,
                 "year": "2022"
+            },
+            {
+                id: "application",
+                "value": 3,
+                "year": "2021"
             }
         ],
         links: [
@@ -148,7 +153,7 @@ const BasicForceDirectedGraph = () => {
                 // .filter(function (d) {
                 //     return d.year !== ""
                 // })
-                .attr("r", d => (0.1 * d.value)+5 )
+                .attr("r", d => (0.1 * d.value) + 5)
                 .attr("cx", d => d.value * 2)
                 .attr("cy", d => d.value * 2)
                 .attr("stroke", "red")
