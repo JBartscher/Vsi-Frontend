@@ -49,7 +49,7 @@ function App() {
         }
     }
 
-    const [year, setYear] = useState("2019")
+    const [year, setYear] = useState("2022")
     const [threshold, setThreshold] = useState(5)
 
     if (!displayData) {

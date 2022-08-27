@@ -63,7 +63,7 @@ export const Barplot = ({width, height, data}) => {
                     alignmentBaseline="central"
                     fontSize={12}
                 >
-                    {d.year}
+                    {d.id}
                 </text>
             </g>
         );
