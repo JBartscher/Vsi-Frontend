@@ -1,22 +1,22 @@
 import YearSelect from "./YearSelect";
-import BubbleChart from "./Charts/BubbleChart";
-import {useEffect, useState} from "react";
+import ThresholdSlider from "./ThresholdSlider";
 
 
-const ViewBox = () => {
+const ViewBox = ({children, handleOptionChange, handleThresholdChange, threshold, year}) => {
 
-    const handleOptionChange = (event) => {
-        console.log(event.target.value)
-        setYear(event.target.value)
-        event.preventDefault()
-    }
-
-    const [year, setYear] = useState("2019")
-
+    // <BubbleChart year={year} threshold={threshold}/>
     return (
-        <div>
-            <YearSelect onChange={handleOptionChange} initialYear={year}/>
-            <BubbleChart year={year}/>
+        <div className={"h-screen"}>
+            <div className="flex flex-col w-full lg:flex-row">
+                <div className="grid flex-grow h-16 card bg-base-300 rounded-box place-items-center"><YearSelect
+                    onChange={handleOptionChange} initialYear={year}/></div>
+                <div className="divider lg:divider-horizontal"></div>
+                <div className="grid flex-grow h-16 card bg-base-300 rounded-box place-items-center"><ThresholdSlider
+                    onChange={handleThresholdChange} threshold={threshold} maximum={50}/></div>
+            </div>
+
+
+            {children}
         </div>
     )
 }

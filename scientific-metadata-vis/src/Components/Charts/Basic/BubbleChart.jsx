@@ -1,9 +1,9 @@
 import * as d3 from "d3";
 import {useEffect, useRef} from "react";
-import {getMaxValueInNodes, findAllIndexesById} from "../../util";
+import {getMaxValueInNodes, findAllIndexesById} from "../../../util";
 
 
-const BubbleChart = ({year}) => {
+const BubbleChart = ({year, threshold}) => {
 
     let svg
     let graph;
@@ -84,11 +84,6 @@ const BubbleChart = ({year}) => {
     }
 
     function handleMouseOver(event, node) {
-        console.log("mouseover")
-        // d3.select(this).style("fill", function (d) {
-        //     return colorScale(node.value * -1 * 2)
-        // })
-
         const nodesWithSameId = findAllIndexesById(graph.nodes, node.id).filter(e => {
             return e !== node.index
         })
@@ -135,9 +130,6 @@ const BubbleChart = ({year}) => {
     }
 
     function handleMouseOut(d, i) {
-        // d3.select(this).style("fill", function (d) {
-        //     return colorScale(d.value)
-        // })
         d3.select('#tooltip').remove()
         d3.selectAll('.relation-line').remove()
         links.current = []
@@ -198,7 +190,7 @@ const BubbleChart = ({year}) => {
             const nextYear = (parseInt(year) + 1).toString()
 
             graph.nodes = graph.nodes.filter(n => {
-                return ((n.year === year) || (n.year === previousYear) || (n.year === nextYear)) && n.value > 10
+                return (n.id !== 'none') && ((n.year === year) || (n.year === previousYear) || (n.year === nextYear)) && n.value > threshold
             })
 
             const max = getMaxValueInNodes(graph.nodes)
@@ -233,7 +225,7 @@ const BubbleChart = ({year}) => {
                 .style("stroke", "black")
 
         }).catch(e => console.error(e))
-    }, [year, links]);
+    }, [year, threshold]);
 
 
     return (<>
