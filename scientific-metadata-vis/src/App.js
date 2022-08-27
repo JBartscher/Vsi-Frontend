@@ -3,24 +3,26 @@ import {BrowserRouter as Router} from "react-router-dom";
 import ViewBox from "./Components/ViewBox";
 import Navbar from "./Components/Navbar/Navbar";
 import {Route, Routes} from "react-router-dom";
-import BarChart from "./Components/Charts/Basic/BarChart";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {json as loadJSONData, max} from "d3";
 import BarPlot from "./Components/Charts/Basic/BarPlot";
 import React from "react";
 import LoadingSpinner from "./Components/LoadingSpinner";
+import PieChart from "./Components/Charts/Basic/PieChart";
 
 function App() {
 
-    const [rawData, setRawData] = useState(null)
+
+    const rawDataRef = useRef()
+
     const [displayData, setDisplayData] = useState(null)
 
     useEffect(() => {
         loadJSONData("data.json").then(data => {
-            setRawData(data);
+            rawDataRef.current = data;
             filterData()
         });
-    }, [filterData])
+    }, [])
 
     const handleOptionChange = (event) => {
         console.log(event.target.value)
@@ -37,12 +39,12 @@ function App() {
     }
 
     function filterData() {
-        if (rawData) {
+        if (rawDataRef.current) {
             setDisplayData({
-                nodes: rawData.nodes.filter(d => {
+                nodes: rawDataRef.current.nodes.filter(d => {
                     return d.id !== 'none' && d.year === year && d.value > threshold
                 }),
-                links: rawData.links.filter(d => {
+                links: rawDataRef.current.links.filter(d => {
                     return d.id !== 'none' && d.year === year && d.value > threshold
                 })
             })
@@ -50,7 +52,7 @@ function App() {
     }
 
     const [year, setYear] = useState("2022")
-    const [threshold, setThreshold] = useState(5)
+    const [threshold, setThreshold] = useState(10)
 
     if (!displayData) {
         return (
@@ -81,11 +83,18 @@ function App() {
                                                                   year={year}>
                                     <BarPlot height={800} width={1400} data={displayData}/>
                                 </ViewBox>}/>
-                                <Route path="/barchart"
-                                       element={<ViewBox> <BarChart rawData={rawData} threshold={threshold}
-                                                                    year={year}/> </ViewBox>}/>
-                                <Route path="/piechart"
-                                       element={<ViewBox> <BarChart rawData={rawData}/> </ViewBox>}/>
+                                <Route path="/barchart" element={<ViewBox threshold={threshold}
+                                                                          handleThresholdChange={handleThresholdChange}
+                                                                          handleOptionChange={handleOptionChange}
+                                                                          year={year}>
+                                    <BarPlot height={800} width={1400} data={displayData}/>
+                                </ViewBox>}/>
+                                <Route path="/piechart" element={<ViewBox threshold={threshold}
+                                                                          handleThresholdChange={handleThresholdChange}
+                                                                          handleOptionChange={handleOptionChange}
+                                                                          year={year}>
+                                    <PieChart height={800} width={1400} data={displayData}/>
+                                </ViewBox>}/>
                             </Routes>
                         </main>
                     </div>

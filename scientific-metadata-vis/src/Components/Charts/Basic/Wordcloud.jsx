@@ -1,4 +1,4 @@
-import {useEffect} from "@types/react";
+import {useEffect} from "React";
 import * as d3 from "d3";
 
 const Wordcloud = () => {

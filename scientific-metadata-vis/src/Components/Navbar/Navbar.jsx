@@ -9,10 +9,10 @@ const Navbar = () => {
             className="min-h-screen bg-gray-800 lg:col-span-2 md:col-span-4 sm:col-span-6 p-10 text-gray-100 flex flex-col">
             <NavbarIcon/>
             <NavbarGroup title={"Basic"}>
-                <NavbarItem to={"/"} text={"Bar chart"} fav={faExternalLink}/>
-                <NavbarItem to={"/wordcloud"} text={"Pie Chart"} fav={faExternalLink}/>
-                <NavbarItem to={"/wordcloud"} text={"Stacked Area Chart"} fav={faExternalLink}/>
-                <NavbarItem to={"/wordcloud"} text={"Bubble Chart"} fav={faExternalLink}/>
+                <NavbarItem to={"/barchart"} text={"Bar chart"} fav={faExternalLink}/>
+                <NavbarItem to={"/piechart"} text={"Pie Chart"} fav={faExternalLink}/>
+                <NavbarItem to={"/stacked-area-chart"} text={"Stacked Area Chart"} fav={faExternalLink}/>
+                <NavbarItem to={"/bubblechart"} text={"Bubble Chart"} fav={faExternalLink}/>
             </NavbarGroup>
             <NavbarGroup title={"Advanced"}>
                 <NavbarItem to={"/"} text={"Wordcloud Chart"} fav={faExternalLink}/>
