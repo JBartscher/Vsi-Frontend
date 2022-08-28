@@ -9,6 +9,7 @@ import BarPlot from "./Components/Charts/Basic/BarPlot";
 import React from "react";
 import LoadingSpinner from "./Components/LoadingSpinner";
 import PieChart from "./Components/Charts/Basic/PieChart";
+import WordCloud2 from "./Components/Charts/Basic/WordCloud2";
 
 function App() {
 
@@ -94,6 +95,12 @@ function App() {
                                                                           handleOptionChange={handleOptionChange}
                                                                           year={year}>
                                     <PieChart height={800} width={1400} data={displayData}/>
+                                </ViewBox>}/>
+                                <Route path="/wordcloud" element={<ViewBox threshold={threshold}
+                                                                          handleThresholdChange={handleThresholdChange}
+                                                                          handleOptionChange={handleOptionChange}
+                                                                          year={year}>
+                                    <WordCloud2 height={800} width={1400} data={displayData}/>
                                 </ViewBox>}/>
                             </Routes>
                         </main>

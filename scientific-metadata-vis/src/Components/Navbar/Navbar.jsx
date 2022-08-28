@@ -11,6 +11,7 @@ const Navbar = () => {
             <NavbarGroup title={"Basic"}>
                 <NavbarItem to={"/barchart"} text={"Bar chart"} fav={faExternalLink}/>
                 <NavbarItem to={"/piechart"} text={"Pie Chart"} fav={faExternalLink}/>
+                <NavbarItem to={"/wordcloud"} text={"Word Cloud"} fav={faExternalLink}/>
                 <NavbarItem to={"/stacked-area-chart"} text={"Stacked Area Chart"} fav={faExternalLink}/>
                 <NavbarItem to={"/bubblechart"} text={"Bubble Chart"} fav={faExternalLink}/>
             </NavbarGroup>
